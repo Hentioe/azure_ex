@@ -22,7 +22,10 @@ defmodule AzureEx.MixProject do
   defp deps do
     [
       {:httpoison, "~> 1.7"},
-      {:typed_struct, "~> 0.2.1"}
+      {:typed_struct, "~> 0.2.1"},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:jason, "~> 1.2"},
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false}
     ]
   end
 end

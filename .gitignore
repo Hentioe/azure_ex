@@ -28,3 +28,6 @@ azure_ex-*.tar
 
 # ElixirLs
 /.elixir_ls
+
+# Secret configs
+/config/*.secret.exs

@@ -26,7 +26,7 @@ defmodule AzureEx.Request do
 
   @spec handle_response({:ok, HTTPoison.Response.t()}) :: {:ok, result} | {:error, error}
   def handle_response({:ok, %HTTPoison.Response{body: body}}) do
-    body |> Jason.decode!(keys: :atoms)
+    {:ok, Jason.decode!(body, keys: :atoms)}
   end
 
   @spec send(:get, String.t(), params) :: httpoison_result

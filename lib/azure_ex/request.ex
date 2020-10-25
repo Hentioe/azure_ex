@@ -16,18 +16,20 @@ defmodule AzureEx.Request do
   @type params :: %{query_params: keyword | map, body: keyword | map}
   @type result :: any
   @type error :: any
+  @type httpoison_result :: {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}
 
   @spec call(binary, atom, params) ::
-          {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}
+          {:ok, result} | {:error, error}
   def call(api, method, params \\ %{query_params: %{}, body: %{}}) do
     method |> send(endpoint(api), params) |> handle_response()
   end
 
-  @spec handle_response({:ok, HTTPosion.Response.t()}) :: {:ok, result} | {:error, error}
+  @spec handle_response({:ok, HTTPoison.Response.t()}) :: {:ok, result} | {:error, error}
   def handle_response({:ok, %HTTPoison.Response{body: body}}) do
     body |> Jason.decode!(keys: :atoms)
   end
 
+  @spec send(:get, String.t(), params) :: httpoison_result
   def send(:get, endpoint, %{query_params: query_params}) do
     endpoint = endpoint <> to_query(query_params)
 

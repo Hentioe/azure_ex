@@ -1,8 +1,8 @@
 defmodule AzureEx.Endpoint do
   @moduledoc false
 
-  require AzureEx.AST
-  import AzureEx.AST
+  require AzureEx.DSL
+  import AzureEx.DSL
 
   defendpoint(
     "ListAllVirtualMachines",

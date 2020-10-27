@@ -1,4 +1,4 @@
-defmodule AzureEx.AST do
+defmodule AzureEx.DSL do
   @moduledoc false
 
   @path_var_re ~r/\{([^\}]+)\}/

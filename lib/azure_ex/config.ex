@@ -4,19 +4,19 @@ defmodule AzureEx.Config do
   @default_timeout 1000 * 15
   @default_recv_timeout 1000 * 10
 
-  # TODO: 通过 oauth2 API 获取并自动刷新 access_token 替代硬编码配置
-  @spec access_token :: String.t() | nil
-  def access_token, do: get(:access_token)
-
-  @spec subscription_id :: String.t() | nil
-  def subscription_id, do: get(:subscription_id)
-
   @spec timeouts :: [timeout: integer(), recv_timeout: integer()]
   def timeouts,
     do: [
       timeout: get(:timeout, @default_timeout),
       recv_timeout: get(:recv_timeout, @default_recv_timeout)
     ]
+
+  @spec tenant_id() :: binary
+  def tenant_id, do: get(:tenant)
+  @spec client_id() :: binary
+  def client_id, do: get(:client_id)
+  @spec client_secret() :: binary
+  def client_secret, do: get(:client_secret)
 
   @spec get(atom(), any()) :: any()
   defp get(key, default \\ nil) do

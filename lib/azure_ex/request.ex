@@ -3,7 +3,7 @@ defmodule AzureEx.Request do
   HTTP request functions.
   """
 
-  alias AzureEx.Config
+  alias AzureEx.{Config, TokenHosting}
 
   @type params :: %{body: keyword | map}
   @type result :: any
@@ -23,6 +23,8 @@ defmodule AzureEx.Request do
 
   @spec send(:get, String.t(), params) :: httpoison_result
   def send(:get, endpoint, %{}) do
-    HTTPoison.get(endpoint, [Authorization: "Bearer #{Config.access_token()}"], Config.timeouts())
+    headers = [Authorization: "Bearer #{TokenHosting.get_token()}"]
+
+    HTTPoison.get(endpoint, headers, Config.timeouts())
   end
 end

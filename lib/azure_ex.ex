@@ -7,6 +7,16 @@ defmodule AzureEx do
   import AzureEx.DSL
 
   defendpoint(
+    "CreateOrUpdateVirtualMachines",
+    "PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2020-06-01"
+  )
+
+  defendpoint(
+    "GetVirtualMachines",
+    "GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2020-06-01"
+  )
+
+  defendpoint(
     "ListAllVirtualMachines",
     "GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachines?api-version=2020-06-01"
   )

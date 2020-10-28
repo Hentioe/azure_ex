@@ -5,7 +5,7 @@ defmodule AzureEx.Request do
 
   alias AzureEx.{Config, TokenHosting}
 
-  @type method :: :get | :post
+  @type method :: :get | :post | :put
   @type data :: map
   @type result :: any
   @type error :: any
@@ -25,6 +25,8 @@ defmodule AzureEx.Request do
     end
   end
 
+  @data_content_type "application/json"
+
   @spec send(method, String.t(), data) :: httpoison_result
   defp send(:get, endpoint, _data) do
     headers = [Authorization: "Bearer #{TokenHosting.get_token()}"]
@@ -35,11 +37,22 @@ defmodule AzureEx.Request do
   defp send(:post, endpoint, data) do
     headers = [
       Authorization: "Bearer #{TokenHosting.get_token()}",
-      "Content-Type": "application/json"
+      "Content-Type": @data_content_type
     ]
 
     body = Jason.encode!(data || %{})
 
     HTTPoison.post(endpoint, body, headers, Config.timeouts())
+  end
+
+  defp send(:put, endpoint, data) do
+    headers = [
+      Authorization: "Bearer #{TokenHosting.get_token()}",
+      "Content-Type": @data_content_type
+    ]
+
+    body = Jason.encode!(data || %{})
+
+    HTTPoison.put(endpoint, body, headers, Config.timeouts())
   end
 end

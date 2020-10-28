@@ -1,7 +1,7 @@
 defmodule AzureEx.TokenHosting do
-  @moduledoc """
-  托管令牌更新。
-  """
+  @moduledoc false
+
+  # TODO: 轮询检查令牌有效性。
 
   use GenServer
 
@@ -69,7 +69,9 @@ defmodule AzureEx.TokenHosting do
         {:ok, token}
 
       {:error, e} ->
-        # TODO: 完善此处的错误模型
+        # TODO: 超时等网络问题自动重试
+        # TODO: 抽象出错误模型
+        # TODO: 记录日志
         {:error, to_string(e)}
     end
   end
@@ -98,7 +100,7 @@ defmodule AzureEx.TokenHosting do
     {:noreply, %{state | token: token}}
   end
 
-  @interval 3500
+  @interval 1000 * 3500
 
   defp schedule_token_refresh do
     Process.send_after(__MODULE__, :refresh, @interval)

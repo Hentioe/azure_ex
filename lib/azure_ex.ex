@@ -3,16 +3,18 @@ defmodule AzureEx do
   Documentation for `AzureEx`.
   """
 
-  @doc """
-  Hello world.
+  require AzureEx.DSL
+  import AzureEx.DSL
 
-  ## Examples
+  defendpoint(
+    "ListAllVirtualMachines",
+    "https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/virtualMachines",
+    {:get, "2020-06-01"}
+  )
 
-      iex> AzureEx.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
+  defendpoint(
+    "GetNetworkInterface",
+    "https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
+    {:get, "2020-06-01"}
+  )
 end

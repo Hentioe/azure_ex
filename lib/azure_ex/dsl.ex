@@ -3,7 +3,7 @@ defmodule AzureEx.DSL do
 
   @path_var_re ~r/\{([^\}]+)\}/
 
-  defmacro defendpoint(name, raw_uri) do
+  defmacro defendpoint(name, raw_uri, {method, last_api_version}) do
     # 扫描原始 URI 中的路径变量
     r = Regex.scan(@path_var_re, raw_uri)
     # 处理并得到路径变量名称列表
@@ -21,7 +21,7 @@ defmodule AzureEx.DSL do
     fun_sign_ast = {
       String.to_atom(Macro.underscore(name)),
       [],
-      path_var_args_ast ++ [{:params, [], Elixir}]
+      path_var_args_ast ++ [{:\\, [], [{:options, [], Elixir}, []]}]
     }
 
     # 使用变量分割 URI
@@ -61,7 +61,22 @@ defmodule AzureEx.DSL do
 
     quote do
       def unquote(fun_sign_ast) do
-        unquote(fun_body_ast) <> "?" <> URI.encode_query(unquote({:params, [], Elixir}))
+        api_version =
+          Keyword.get(unquote({:options, [], Elixir}), :"api-version", unquote(last_api_version))
+
+        params = Keyword.get(unquote({:options, [], Elixir}), :params)
+        data = Keyword.get(unquote({:options, [], Elixir}), :data)
+
+        endpoint = unquote(fun_body_ast) <> "?" <> "api-version=#{api_version}"
+
+        endpoint =
+          if params do
+            endpoint <> "&#{URI.encode_query(params)}"
+          else
+            endpoint
+          end
+
+        AzureEx.Request.call(endpoint, unquote(method), data)
       end
     end
   end

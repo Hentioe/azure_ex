@@ -5,15 +5,15 @@ defmodule AzureEx.Request do
 
   alias AzureEx.{Config, TokenHosting}
 
-  @type params :: %{body: keyword | map}
+  @type body :: map
   @type result :: any
   @type error :: any
   @type httpoison_result :: {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}
 
-  @spec call(binary, atom, params) ::
+  @spec call(binary, atom, body) ::
           {:ok, result} | {:error, error}
-  def call(endpoint, method, params \\ %{body: %{}}) do
-    method |> send(endpoint, params) |> handle_response()
+  def call(endpoint, method, body \\ %{}) do
+    method |> send(endpoint, body) |> handle_response()
   end
 
   @spec handle_response({:ok, HTTPoison.Response.t()}) :: {:ok, result} | {:error, error}
@@ -21,8 +21,8 @@ defmodule AzureEx.Request do
     {:ok, Jason.decode!(body, keys: :atoms)}
   end
 
-  @spec send(:get, String.t(), params) :: httpoison_result
-  def send(:get, endpoint, %{}) do
+  @spec send(:get, String.t(), body) :: httpoison_result
+  def send(:get, endpoint, _body \\ %{}) do
     headers = [Authorization: "Bearer #{TokenHosting.get_token()}"]
 
     HTTPoison.get(endpoint, headers, Config.timeouts())

@@ -2,11 +2,27 @@ defmodule AzureEx.DSL do
   @moduledoc false
 
   @path_var_re ~r/\{([^\}]+)\}/
+  @api_version_query_re ~r/api\-version=(.+)$/
 
-  defmacro defendpoint(name, raw_uri, {method, last_api_version}) do
-    # 扫描原始 URI 中的路径变量
-    r = Regex.scan(@path_var_re, raw_uri)
-    # 处理并得到路径变量名称列表
+  defmacro defendpoint(name, raw_api) do
+    # 解析并获取请求方法
+    method_s = raw_api |> String.split(" ") |> List.first() |> Macro.underscore()
+
+    # +1 是为了消除空格
+    uri_begin_pos = String.length(method_s) + 1
+
+    method = String.to_atom(method_s)
+    # 解析并获取 API 版本
+    [_, api_version] = Regex.run(@api_version_query_re, raw_api)
+
+    [{query_begin_pos, _}, _] = Regex.run(@api_version_query_re, raw_api, return: :index)
+
+    # 截断获取 URI
+    uri = String.slice(raw_api, uri_begin_pos..(query_begin_pos - 2))
+
+    # 扫描 URI 中的路径变量
+    r = Regex.scan(@path_var_re, uri)
+    # 处理并得到路径变量的名称列表
     path_vars =
       r
       |> Enum.map(&List.last/1)
@@ -25,12 +41,12 @@ defmodule AzureEx.DSL do
     }
 
     # 使用变量分割 URI
-    raw_segments = Regex.split(@path_var_re, raw_uri)
+    raw_segments = Regex.split(@path_var_re, uri)
 
     unless length(raw_segments) == length(path_vars) + 1 do
       raise """
       Error parsing raw URI, wrong number of path variables.\n
-      URI: #{raw_uri}
+      URI: #{uri}
       Vars: #{inspect(path_vars)}
       """
     end
@@ -56,18 +72,18 @@ defmodule AzureEx.DSL do
         end
       end)
 
-    # 函数体 AST（拼接字符串）
-    fun_body_ast = {:<<>>, [], splicing_args_ast}
+    # <<>> 宏的调用 AST
+    splicing_call_ast = {:<<>>, [], splicing_args_ast}
 
     quote do
       def unquote(fun_sign_ast) do
         api_version =
-          Keyword.get(unquote({:options, [], Elixir}), :"api-version", unquote(last_api_version))
+          Keyword.get(unquote({:options, [], Elixir}), :"api-version", unquote(api_version))
 
         params = Keyword.get(unquote({:options, [], Elixir}), :params)
         data = Keyword.get(unquote({:options, [], Elixir}), :data)
 
-        endpoint = unquote(fun_body_ast) <> "?" <> "api-version=#{api_version}"
+        endpoint = unquote(splicing_call_ast) <> "?" <> "api-version=#{api_version}"
 
         endpoint =
           if params do

@@ -20,4 +20,14 @@ defmodule AzureEx do
     "PowerOffVirtualMachines",
     "POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/powerOff?api-version=2020-06-01"
   )
+
+  defendpoint(
+    "StartVirtualMachines",
+    "POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/start?api-version=2020-06-01"
+  )
+
+  defendpoint(
+    "RestartVirtualMachines",
+    "POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/restart?api-version=2020-06-01"
+  )
 end

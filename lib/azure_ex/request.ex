@@ -12,8 +12,8 @@ defmodule AzureEx.Request do
   @type httpoison_result :: {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}
 
   @spec call(binary, method, data) :: {:ok, result} | {:error, error}
-  def call(endpoint, method, body \\ %{}) do
-    method |> send(endpoint, body) |> handle_response()
+  def call(endpoint, method, data \\ %{}) do
+    method |> send(endpoint, data) |> handle_response()
   end
 
   @spec handle_response({:ok, HTTPoison.Response.t()}) :: {:ok, result} | {:error, error}

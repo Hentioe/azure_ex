@@ -40,4 +40,14 @@ defmodule AzureEx do
     "RestartVirtualMachines",
     "POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/restart?api-version=2020-06-01"
   )
+
+  defendpoint(
+    "CreateOrUpdateNetworkInterfaces",
+    "PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}?api-version=2020-05-01"
+  )
+
+  defendpoint(
+    "CreateOrUpdateSubnets",
+    "PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2020-05-01"
+  )
 end

@@ -12,6 +12,11 @@ defmodule AzureEx do
   )
 
   defendpoint(
+    "DeleteVirtualMachines",
+    "DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2020-06-01"
+  )
+
+  defendpoint(
     "GetVirtualMachines",
     "GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2020-06-01"
   )
@@ -49,5 +54,10 @@ defmodule AzureEx do
   defendpoint(
     "CreateOrUpdateSubnets",
     "PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2020-05-01"
+  )
+
+  defendpoint(
+    "DeleteNetworkInterfaces",
+    "DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}?api-version=2020-05-01"
   )
 end

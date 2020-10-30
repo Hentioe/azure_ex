@@ -5,7 +5,7 @@ defmodule AzureEx.Request do
 
   alias AzureEx.{Config, TokenHosting}
 
-  @type method :: :get | :post | :put
+  @type method :: :get | :post | :put | :delete
   @type data :: map
   @type result :: any
   @type error :: any
@@ -54,5 +54,11 @@ defmodule AzureEx.Request do
     body = Jason.encode!(data || %{})
 
     HTTPoison.put(endpoint, body, headers, Config.timeouts())
+  end
+
+  defp send(:delete, endpoint, _data) do
+    headers = [Authorization: "Bearer #{TokenHosting.get_token()}"]
+
+    HTTPoison.delete(endpoint, headers, Config.timeouts())
   end
 end

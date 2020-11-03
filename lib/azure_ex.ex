@@ -60,4 +60,19 @@ defmodule AzureEx do
     "DeleteNetworkInterfaces",
     "DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}?api-version=2020-05-01"
   )
+
+  defendpoint(
+    "CreateOrUpdatePublicIPAddress",
+    "PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2020-05-01"
+  )
+
+  defendpoint(
+    "DeletePublicIPAddress",
+    "DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2020-05-01"
+  )
+
+  defendpoint(
+    "DeleteDisks",
+    "DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}?api-version=2020-06-30"
+  )
 end

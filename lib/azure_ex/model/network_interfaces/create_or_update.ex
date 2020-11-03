@@ -3,7 +3,14 @@ defmodule AzureEx.Model.NetworkInterfaces.CreateOrUpdate do
 
   use TypedStruct
 
-  alias __MODULE__.{Properties}
+  alias __MODULE__.{Properties, PublicIPAddress}
+
+  typedstruct module: PublicIPAddress do
+    @derive Jason.Encoder
+
+    field :id, String.t()
+    field :name, String.t()
+  end
 
   typedstruct module: Subnet do
     @derive Jason.Encoder
@@ -15,11 +22,13 @@ defmodule AzureEx.Model.NetworkInterfaces.CreateOrUpdate do
     @derive Jason.Encoder
 
     field :subnet, Subnet.t()
+    field :publicIPAddress, PublicIPAddress.t()
   end
 
   typedstruct module: NetworkInterfaceIPConfiguration do
     @derive Jason.Encoder
 
+    field :id, String.t()
     field :name, String.t()
     field :properties, NetworkInterfaceIPConfiguration.Properties.t()
   end

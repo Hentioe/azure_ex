@@ -7,8 +7,8 @@ defmodule AzureEx.Request do
 
   @type method :: :get | :post | :put | :delete
   @type data :: map
-  @type result :: any
-  @type error :: any
+  @type result :: integer | map
+  @type error :: map
   @type httpoison_result :: {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}
 
   @spec call(binary, method, data) :: {:ok, result} | {:error, error}
@@ -21,7 +21,13 @@ defmodule AzureEx.Request do
     if body == "" do
       {:ok, status_code}
     else
-      {:ok, Jason.decode!(body, keys: :atoms)}
+      result = Jason.decode!(body, keys: :atoms)
+
+      if result[:error] && result[:error][:code] do
+        {:error, %{code: result[:error][:code], message: result[:error][:message]}}
+      else
+        {:ok, result}
+      end
     end
   end
 

@@ -47,8 +47,28 @@ defmodule AzureEx do
   )
 
   defendpoint(
+    "InstanceViewVirtualMachines",
+    "GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/instanceView?api-version=2020-06-01"
+  )
+
+  defendpoint(
     "CreateOrUpdateNetworkInterfaces",
     "PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}?api-version=2020-05-01"
+  )
+
+  defendpoint(
+    "GetVirtualNetworks",
+    "GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2020-05-01"
+  )
+
+  defendpoint(
+    "CreateOrUpdateVirtualNetworks",
+    "PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2020-05-01"
+  )
+
+  defendpoint(
+    "GetSubnet",
+    "GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2020-05-01"
   )
 
   defendpoint(

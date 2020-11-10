@@ -4,8 +4,8 @@ defmodule AzureEx.Config do
   @default_timeout 1000 * 15
   @default_recv_timeout 1000 * 10
 
-  @spec timeouts :: [timeout: integer(), recv_timeout: integer()]
-  def timeouts,
+  @spec http_options :: [timeout: integer(), recv_timeout: integer()]
+  def http_options,
     do: [
       timeout: get(:timeout, @default_timeout),
       recv_timeout: get(:recv_timeout, @default_recv_timeout)

@@ -37,7 +37,7 @@ defmodule AzureEx.Request do
   defp send(:get, endpoint, _data) do
     headers = [Authorization: "Bearer #{TokenHosting.get_token()}"]
 
-    HTTPoison.get(endpoint, headers, Config.timeouts())
+    HTTPoison.get(endpoint, headers, Config.http_options())
   end
 
   defp send(:post, endpoint, data) do
@@ -48,7 +48,7 @@ defmodule AzureEx.Request do
 
     body = Jason.encode!(data || %{})
 
-    HTTPoison.post(endpoint, body, headers, Config.timeouts())
+    HTTPoison.post(endpoint, body, headers, Config.http_options())
   end
 
   defp send(:put, endpoint, data) do
@@ -59,12 +59,12 @@ defmodule AzureEx.Request do
 
     body = Jason.encode!(data || %{})
 
-    HTTPoison.put(endpoint, body, headers, Config.timeouts())
+    HTTPoison.put(endpoint, body, headers, Config.http_options())
   end
 
   defp send(:delete, endpoint, _data) do
     headers = [Authorization: "Bearer #{TokenHosting.get_token()}"]
 
-    HTTPoison.delete(endpoint, headers, Config.timeouts())
+    HTTPoison.delete(endpoint, headers, Config.http_options())
   end
 end

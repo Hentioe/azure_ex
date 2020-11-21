@@ -95,4 +95,39 @@ defmodule AzureEx do
     "DeleteDisks",
     "DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}?api-version=2020-06-30"
   )
+
+  defendpoint(
+    "CreateSshPublicKeys",
+    "PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}?api-version=2020-06-01"
+  )
+
+  defendpoint(
+    "GetSshPublicKeys",
+    "GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}?api-version=2020-06-01"
+  )
+
+  defendpoint(
+    "ListByReourceGroupSshPublicKeys",
+    "GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys?api-version=2020-06-01"
+  )
+
+  defendpoint(
+    "GenerateKeyPairSshPublicKeys",
+    "POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}/generateKeyPair?api-version=2020-06-01"
+  )
+
+  defendpoint(
+    "DeleteSshPublicKeys",
+    "DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}?api-version=2020-06-01"
+  )
+
+  defendpoint(
+    "ListMetrics",
+    "GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?api-version=2018-01-01"
+  )
+
+  defendpoint(
+    "ListResources",
+    "GET https://management.azure.com/subscriptions/{subscriptionId}/resources?api-version=2020-06-01"
+  )
 end

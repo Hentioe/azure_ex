@@ -3,7 +3,14 @@ defmodule AzureEx.Model.VirtualMachines.CreateOrUpdate do
 
   use TypedStruct
 
-  alias __MODULE__.{Properties, NetworkInterfaceReference, StorageProfile}
+  alias __MODULE__.{
+    Properties,
+    NetworkInterfaceReference,
+    StorageProfile,
+    LinuxConfiguration,
+    SshConfiguration,
+    SshPublicKey
+  }
 
   typedstruct module: HardwareProfile do
     @derive Jason.Encoder
@@ -38,12 +45,32 @@ defmodule AzureEx.Model.VirtualMachines.CreateOrUpdate do
     field :networkInterfaces, [NetworkInterfaceReference.t()]
   end
 
+  typedstruct module: SshPublicKey do
+    @derive Jason.Encoder
+
+    field :path, String.t()
+    field :keyData, String.t()
+  end
+
+  typedstruct module: SshConfiguration do
+    @derive Jason.Encoder
+
+    field :publicKeys, [SshPublicKey.t()]
+  end
+
+  typedstruct module: LinuxConfiguration do
+    @derive Jason.Encoder
+
+    field :ssh, SshConfiguration.t()
+  end
+
   typedstruct module: OSProfile do
     @derive Jason.Encoder
 
     field :adminPassword, String.t()
     field :adminUsername, String.t()
     field :computerName, String.t()
+    field :linuxConfiguration, LinuxConfiguration.t()
   end
 
   typedstruct module: Properties do

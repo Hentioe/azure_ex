@@ -4,11 +4,12 @@ defmodule AzureEx.Request do
   """
 
   alias AzureEx.{Config, TokenHosting}
+  alias AzureEx.Model.{ApiError, RequestError}
 
   @type method :: :get | :post | :put | :delete
   @type data :: map
   @type result :: integer | map
-  @type error :: map
+  @type error :: ApiError.t() | RequestError.t()
   @type httpoison_result :: {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}
 
   @spec call(binary, method, data) :: {:ok, result} | {:error, error}
@@ -16,19 +17,26 @@ defmodule AzureEx.Request do
     method |> send(endpoint, data) |> handle_response()
   end
 
-  @spec handle_response({:ok, HTTPoison.Response.t()}) :: {:ok, result} | {:error, error}
+  @type request_result :: {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}
+
+  @spec handle_response(request_result) :: {:ok, result} | {:error, error}
   def handle_response({:ok, %HTTPoison.Response{body: body, status_code: status_code}}) do
     if body == "" do
       {:ok, status_code}
     else
       result = Jason.decode!(body, keys: :atoms)
+      error = result[:error]
 
-      if result[:error] && result[:error][:code] do
-        {:error, %{code: result[:error][:code], message: result[:error][:message]}}
+      if error && error[:code] do
+        {:error, %ApiError{code: error[:code], message: error[:message]}}
       else
         {:ok, result}
       end
     end
+  end
+
+  def handle_response({:error, %HTTPoison.Error{reason: reason}}) do
+    {:error, %RequestError{reason: reason}}
   end
 
   @data_content_type "application/json"

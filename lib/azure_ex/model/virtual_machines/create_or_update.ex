@@ -6,6 +6,7 @@ defmodule AzureEx.Model.VirtualMachines.CreateOrUpdate do
   alias __MODULE__.{
     Properties,
     NetworkInterfaceReference,
+    OSDisk,
     StorageProfile,
     LinuxConfiguration,
     SshConfiguration,
@@ -27,10 +28,18 @@ defmodule AzureEx.Model.VirtualMachines.CreateOrUpdate do
     field :version, String.t()
   end
 
+  typedstruct module: OSDisk do
+    @derive Jason.Encoder
+
+    field :name, String.t()
+    field :createOption, String.t()
+  end
+
   typedstruct module: StorageProfile do
     @derive Jason.Encoder
 
     field :imageReference, ImageReference.t()
+    field :osDisk, OSDisk.t()
   end
 
   typedstruct module: NetworkInterfaceReference do

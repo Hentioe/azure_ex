@@ -130,4 +130,9 @@ defmodule AzureEx do
     "ListResources",
     "GET https://management.azure.com/subscriptions/{subscriptionId}/resources?api-version=2020-06-01"
   )
+
+  defendpoint(
+    "ListByResourceGroupResources",
+    "GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/resources?api-version=2020-06-01"
+  )
 end

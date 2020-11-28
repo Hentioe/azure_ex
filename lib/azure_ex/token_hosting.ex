@@ -72,7 +72,7 @@ defmodule AzureEx.TokenHosting do
         # TODO: 超时等网络问题自动重试
         # TODO: 抽象出错误模型
         # TODO: 记录日志
-        {:error, to_string(e)}
+        {:error, inspect(e)}
     end
   end
 

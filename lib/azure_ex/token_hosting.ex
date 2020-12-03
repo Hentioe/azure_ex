@@ -5,6 +5,8 @@ defmodule AzureEx.TokenHosting do
 
   use GenServer
 
+  require Logger
+
   defmodule Token do
     @moduledoc false
 
@@ -51,8 +53,8 @@ defmodule AzureEx.TokenHosting do
   @grant_type "client_credentials"
   @headers [{"Content-Type", "application/x-www-form-urlencoded"}]
 
-  @spec apply_token(Params.t()) :: {:ok, Token.t()} | {:error, binary}
-  defp apply_token(%{tenant: tt, client_id: ci, client_secret: cs}) do
+  @spec apply_token(Params.t()) :: {:ok, Token.t()} | {:error, any}
+  defp apply_token(%{tenant: tt, client_id: ci, client_secret: cs} = params) do
     endpoint = "https://login.microsoftonline.com/#{tt}/oauth2/v2.0/token"
 
     form = [
@@ -68,11 +70,17 @@ defmodule AzureEx.TokenHosting do
 
         {:ok, token}
 
+      {:error, %HTTPoison.Error{reason: :timeout}} ->
+        Logger.warn("the token request timed out, retrying...")
+
+        apply_token(params)
+
       {:error, e} ->
-        # TODO: 超时等网络问题自动重试
         # TODO: 抽象出错误模型
-        # TODO: 记录日志
-        {:error, inspect(e)}
+        Logger.error("Token application failed, details: #{inspect(e)}")
+        :timer.sleep(500)
+
+        apply_token(params)
     end
   end
 

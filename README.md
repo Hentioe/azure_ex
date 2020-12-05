@@ -18,11 +18,11 @@ def deps do
 end
 ```
 
-Run the mix deps.get command to install.
+Run the `mix deps.get` command to install.
 
 ## Configuration
 
-Obtain the necessary parameters for applying for Token through [this article](https://mauridb.medium.com/calling-azure-rest-api-via-curl-eb10a06127), and fill in the following template configuration types:
+Obtain the necessary parameters for applying for Token through [this article](https://mauridb.medium.com/calling-azure-rest-api-via-curl-eb10a06127), and fill in the following template:
 
 ```elixir
 config :azure_ex,
@@ -57,7 +57,7 @@ def create_virtual_machine() do
   ssh_public_key_data = "<SSH public key data>"
 
   # Create a virtual network.
-  virutal_network_create = %VirtualNetworks.CreateOrUpdate{
+  virutal_network_data = %VirtualNetworks.CreateOrUpdate{
     location: location,
     properties: %VirtualNetworks.CreateOrUpdate.Properties{
       addressSpace: %VirtualNetworks.CreateOrUpdate.AddressSpace{
@@ -71,11 +71,11 @@ def create_virtual_machine() do
       subscription_id,
       resource_group,
       "#{resource_group}-vnet-#{location}",
-      data: virutal_network_create
+      data: virutal_network_data
     )
 
   # Create a default subnet.
-  subnet_create = %Subnets.CreateOrUpdate{
+  subnet_data = %Subnets.CreateOrUpdate{
     name: "default",
     properties: %Subnets.CreateOrUpdate.Properties{
       addressPrefix: "10.0.0.0/16"
@@ -87,11 +87,11 @@ def create_virtual_machine() do
     resource_group,
     "#{resource_group}-vnet-#{location}",
     "default",
-    data: subnet_create
+    data: subnet_data
   )
 
   # Create a public IP address.
-  public_ip_address_create = %PublicIPAddress.CreateOrUpdate{
+  public_ip_address_data = %PublicIPAddress.CreateOrUpdate{
     location: location,
     properties: %PublicIPAddress.CreateOrUpdate.Properties{
       publicIPAddressVersion: "ipv4"
@@ -103,11 +103,11 @@ def create_virtual_machine() do
       subscription_id,
       resource_group,
       "#{vm_name}-ip",
-      data: public_ip_address_create
+      data: public_ip_address_data
     )
 
   # Create a network interface.
-  network_interface_create = %NetworkInterfaces.CreateOrUpdate{
+  network_interface_data = %NetworkInterfaces.CreateOrUpdate{
     location: location,
     properties: %NetworkInterfaces.CreateOrUpdate.Properties{
       ipConfigurations: [
@@ -135,11 +135,11 @@ def create_virtual_machine() do
       subscription_id,
       resource_group,
       "#{vm_name}-ni",
-      data: network_interface_create
+      data: network_interface_data
     )
 
   # Create a virtual machine.
-  virtual_machine_create = %VirtualMachines.CreateOrUpdate{
+  virtual_machine_data = %VirtualMachines.CreateOrUpdate{
     location: location,
     properties: %VirtualMachines.CreateOrUpdate.Properties{
       hardwareProfile: %VirtualMachines.CreateOrUpdate.HardwareProfile{
@@ -186,7 +186,7 @@ def create_virtual_machine() do
       subscription_id,
       resource_group,
       "#{vm_name}-vm",
-      data: virtual_machine_create
+      data: virtual_machine_data
     )
 end
 ```

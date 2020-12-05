@@ -1,5 +1,7 @@
 # AzureEx
 
+[![Hex.pm](https://img.shields.io/hexpm/v/azure_ex.svg)](http://hex.pm/packages/azure_ex)
+
 An Azure API client.
 
 ## Current state

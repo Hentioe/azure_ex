@@ -1,13 +1,32 @@
 defmodule AzureEx.MixProject do
   use Mix.Project
 
+  @version "0.1.0-rc.0"
+  @description "Azure API client"
+
   def project do
     [
       app: :azure_ex,
-      version: "0.1.0-dev",
+      version: @version,
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: @description,
+      package: package(),
+      name: "AzureEx",
+      source_url: "https://github.com/Hentioe/azure_ex",
+      docs: [
+        # The main page in the docs
+        main: "readme",
+        extras: ["README.md"]
+      ]
+    ]
+  end
+
+  defp package do
+    [
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/Hentioe/azure_ex"}
     ]
   end
 

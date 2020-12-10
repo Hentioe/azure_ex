@@ -135,4 +135,14 @@ defmodule AzureEx do
     "ListByResourceGroupResources",
     "GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/resources?api-version=2020-06-01"
   )
+
+  defendpoint(
+    "RunCommandVirtualMachinesRunCommands",
+    "POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand?api-version=2020-06-01"
+  )
+
+  defendpoint(
+    "CreateOrUpdateVirtualMachineRunCommands",
+    "PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommands/{runCommandName}?api-version=2020-06-01"
+  )
 end

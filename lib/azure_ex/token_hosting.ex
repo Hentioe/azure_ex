@@ -1,14 +1,14 @@
 defmodule AzureEx.TokenHosting do
   @moduledoc false
 
-  # TODO: 轮询检查令牌有效性。
-
   use GenServer
 
   require Logger
 
   defmodule Token do
-    @moduledoc false
+    @moduledoc """
+    Azure API token.
+    """
 
     defstruct [:access_token, :expires_in, :created_at]
 
@@ -26,7 +26,9 @@ defmodule AzureEx.TokenHosting do
   end
 
   defmodule Params do
-    @moduledoc false
+    @moduledoc """
+    Parameters for applying token.
+    """
 
     defstruct [:tenant, :client_id, :client_secret]
 
@@ -75,12 +77,8 @@ defmodule AzureEx.TokenHosting do
 
         apply_token(params)
 
-      {:error, e} ->
-        # TODO: 抽象出错误模型
-        Logger.error("Token application failed, details: #{inspect(e)}")
-        :timer.sleep(500)
-
-        apply_token(params)
+      e ->
+        e
     end
   end
 
